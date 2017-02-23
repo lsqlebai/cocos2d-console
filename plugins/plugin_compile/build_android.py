@@ -515,7 +515,15 @@ class AndroidBuilder(object):
                 gen_apk_path = os.path.join(gen_apk_folder, apk_name)
                 if not os.path.exists(output_dir):
                     os.makedirs(output_dir)
-                shutil.copy(gen_apk_path, output_dir)
+                print "gen_apk_folder " + gen_apk_folder
+                print "gen_apk_path " + gen_apk_path
+                print "output_dir " + output_dir
+
+                #modified by shiqi
+                for file in os.listdir(gen_apk_folder):
+                    print file
+                    shutil.copy(os.path.join(gen_apk_folder, file), output_dir)
+                #shutil.copytree(gen_apk_path, output_dir)
                 cocos.Logging.info(MultiLanguage.get_string('COMPILE_INFO_MOVE_APK_FMT', output_dir))
 
                 if build_mode == "release":
@@ -622,8 +630,8 @@ class AndroidBuilder(object):
         else:
             manifest_path = self.app_android_root
             package = self._xml_attr(manifest_path, 'AndroidManifest.xml', 'manifest', 'package')
-
-        activity_name = self._xml_attr(manifest_path, 'AndroidManifest.xml', 'activity', 'android:name')
+        #modified by shiqi
+        activity_name = "com.iflytek.musicnb.AppActivity"#self._xml_attr(manifest_path, 'AndroidManifest.xml', 'activity', 'android:name')
         if activity_name.startswith('.'):
             activity = package + activity_name
         else:
